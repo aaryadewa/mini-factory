@@ -35,7 +35,8 @@ public final class App {
                 selector.showMenu();
             }
 
-            selector.applySelection(selector.getSelection(input, selection));
+            selector.setScanner(input);
+            selector.applySelection(selector.getSelection(selection));
         }
 
         input.close();

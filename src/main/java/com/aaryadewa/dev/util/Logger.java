@@ -1,8 +1,6 @@
 package com.aaryadewa.dev.util;
 
-import java.util.Scanner;
-
-public class Logger implements InteractiveMenuSelector {
+public class Logger extends InteractiveMenuSelector {
   private final Class<? extends Object> clazz;
 
   private static final int DEBUG = 4;
@@ -56,7 +54,7 @@ public class Logger implements InteractiveMenuSelector {
   }
 
   @Override
-  public Object getSelection(Scanner scanner, Object defaultSelection) {
+  public Object getSelection(Object defaultSelection) {
     return scanner.nextInt();
   }
 

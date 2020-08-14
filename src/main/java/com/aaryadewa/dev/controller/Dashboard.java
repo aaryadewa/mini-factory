@@ -2,25 +2,27 @@ package com.aaryadewa.dev.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
+import com.aaryadewa.dev.repository.Warehouse;
 import com.aaryadewa.dev.util.InteractiveMenuSelector;
 import com.aaryadewa.dev.util.Logger;
 
-public class Dashboard implements InteractiveMenuSelector {
+public class Dashboard extends InteractiveMenuSelector {
   private static final Logger logger = new Logger(Dashboard.class);
   private boolean running = false;
   private final String[] menu;
   private final Map<Integer, InteractiveMenuSelector> menuSelectors;
+  private final Warehouse warehouse = new Warehouse();
 
   public Dashboard() {
     logger.info("*** Mini Factory ***");
 
-    menu = new String[] { "(1) Adjust output verbosity", "(2) Exit" };
+    menu = new String[] { "(1) Manage Products", "(2) Adjust output verbosity", "(3) Exit" };
 
     menuSelectors = new HashMap<>();
-    menuSelectors.put(1, logger);
-    menuSelectors.put(2, this);
+    menuSelectors.put(1, new ProductionMachine(warehouse));
+    menuSelectors.put(2, logger);
+    menuSelectors.put(3, this);
   }
 
   public void start() {
@@ -53,7 +55,7 @@ public class Dashboard implements InteractiveMenuSelector {
   }
 
   @Override
-  public Object getSelection(Scanner scanner, Object defaultSelection) {
+  public Object getSelection(Object defaultSelection) {
     return defaultSelection;
   }
 
