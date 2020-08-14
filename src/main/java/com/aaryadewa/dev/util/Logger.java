@@ -1,6 +1,8 @@
 package com.aaryadewa.dev.util;
 
-public class Logger {
+import java.util.Scanner;
+
+public class Logger implements InteractiveMenuSelector {
   private final Class<? extends Object> clazz;
 
   private static final int DEBUG = 4;
@@ -8,12 +10,9 @@ public class Logger {
   private static final int WARN = 2;
   private static final int ERROR = 1;
 
-  private static final String[] LEVEL_OPTIONS = new String[] {
-    "(" + DEBUG + ") Show all messages",
-    "(" + INFO + ") Don't show debug messages",
-    "(" + WARN + ") Show warning and error messages only",
-    "(" + ERROR + ") I don't care all but error messages"
-  };
+  private static final String[] LEVEL_OPTIONS = new String[] { "(" + ERROR + ") I don't care all but error messages",
+      "(" + WARN + ") Show warning and error messages only", "(" + INFO + ") Don't show debug messages",
+      "(" + DEBUG + ") Show all messages" };
 
   private static int level = DEBUG;
 
@@ -45,22 +44,36 @@ public class Logger {
     println(message);
   }
 
-  public void showLevels() {
+  private void println(String message) {
+    System.out.println(message);
+  }
+
+  @Override
+  public void showMenu() {
     for (String option : LEVEL_OPTIONS) {
       prompt(option);
     }
   }
 
-  public static void setLevel(int level) {
-    if (level > DEBUG) {
-      level = DEBUG;
-    } else if (level < ERROR) {
-      level = ERROR;
-    }
-    Logger.level = level;
+  @Override
+  public Object getSelection(Scanner scanner, Object defaultSelection) {
+    return scanner.nextInt();
   }
 
-  private void println(String message) {
-    System.out.println(message);
+  @Override
+  public void applySelection(Object selection) {
+    int value = (int) selection;
+
+    if (value > DEBUG) {
+      value = DEBUG;
+    } else if (value < ERROR) {
+      value = ERROR;
+    }
+
+    Logger.setLevel(value);
+  }
+
+  public static void setLevel(int level) {
+    Logger.level = level;
   }
 }
